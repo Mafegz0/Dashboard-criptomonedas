@@ -3,8 +3,9 @@
  */
 
 // Usamos WebSocket gratuito de Binance Spot (sin token).
-// Vamos a solicitar precios para: bitcoin, ethereum, monero y litecoin.
-var preciosEndPoint = new WebSocket('wss://stream.binance.com:9443/stream?streams=btcusdt@miniTicker/ethusdt@miniTicker/xmrusdt@miniTicker/ltcusdt@miniTicker');
+// Vamos a solicitar precios para: bitcoin, ethereum, solana y litecoin.
+var preciosEndPoint = new WebSocket('wss://stream.binance.com:9443/stream?streams=btcusdt@miniTicker/ethusdt@miniTicker/solusdt@miniTicker/ltcusdt@miniTicker');
+
 
 // Cuando una de las criptomonedas cambia de precio, ejecutamos la función procesarNuevoMensaje.
 preciosEndPoint.onmessage = procesarNuevoMensaje;
@@ -13,7 +14,7 @@ preciosEndPoint.onmessage = procesarNuevoMensaje;
 var simbolosBinance = {
   BTCUSDT: 'bitcoin',
   ETHUSDT: 'ethereum',
-  XMRUSDT: 'monero',
+  SOLUSDT: 'solana',
   LTCUSDT: 'litecoin'
 };
 
@@ -25,7 +26,7 @@ var simbolosBinance = {
 const monedas = [
   { nombre: "bitcoin", precioActual: null, precioMasAlto: null, precioMasBajo: null, datos: [] },
   { nombre: "ethereum", precioActual: null, precioMasAlto: null, precioMasBajo: null, datos: [] },
-  { nombre: "monero", precioActual: null, precioMasAlto: null, precioMasBajo: null, datos: [] },
+  { nombre: "solana", precioActual: null, precioMasAlto: null, precioMasBajo: null, datos: [] },
   { nombre: "litecoin", precioActual: null, precioMasAlto: null, precioMasBajo: null, datos: [] }
 ];
 
@@ -47,7 +48,7 @@ function procesarNuevoMensaje(mensaje) {
   var mensajeJson = {};
   mensajeJson[nombreMoneda] = data.data.c;
 
-  // Iteramos sobre los valores del mensaje que vienen en parejas de "nombre": "precio"
+  // Iteramos sbre los valores del mensaje que vienen en parejas de "nombre": "precio"
   for (var nombreMonedaRecibido in mensajeJson) {
     // En el siguiente loop, pasamos por cada objeto que definimos en la variable "monedas" que contiene la nueva estructura de datos que queremos llenar.
     for (var i = 0; i < monedas.length; i++) {
@@ -106,6 +107,7 @@ function procesarNuevoMensaje(mensaje) {
 // En JavaScript podemos extraer elementos del HTML para actualizar su contenido dinámicamente.
 // Si van al archivo index.html van a ver que hay 2 elementos vacíos con los siguientes ids: <p id="contexto1"></p>  <p id="contexto2"></p>
 // Los vamos a guardar en variables para luego insertar el contenido a medida que los datos se actualizan.
+var ultimaActualizacion = document.getElementById('ultimaActualizacion');
 var contexto1 = document.getElementById('contexto1');
 var contexto2 = document.getElementById('contexto2');
 
@@ -118,7 +120,7 @@ var formatoUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: '
  */
 // Pueden cambiar los valores de estas variables para cambiar el tamaño del contenedor.
 // Usamos margenes para darle espacio a los textos de cada eje.
-var margen = { top: 10, right: 30, bottom: 30, left: 100 };
+var margen = { top: 20, right: 30, bottom: 50, left: 100 };
 var ancho = 800 - margen.left - margen.right;
 var alto = 400 - margen.top - margen.bottom;
 
@@ -146,6 +148,31 @@ const y = d3.scaleLinear().range([alto, 0]);
 const ejeY = d3.axisLeft().scale(y);
 svg.append('g').attr('class', 'ejeY');
 
+// Título eje Y
+svg.append('text')
+  .attr('transform', 'rotate(-90)')
+  .attr('y', -70)               
+  .attr('x', -alto / 2)         
+  .attr('text-anchor', 'middle')
+  .attr('class', 'labelEje')
+  .text('Precio (USD)');
+
+// Título eje X
+svg.append('text')
+  .attr('y', alto + 45)         
+  .attr('x', ancho / 2)    
+  .attr('text-anchor', 'middle')
+  .attr('class', 'labelEje')
+  .text('Tiempo (actualización en vivo)');
+
+// Colores para cada criptomoneda
+var coloresMonedas = {
+  bitcoin: '#f2a900',   // dorado
+  ethereum: '#627eea',  // azul
+  solana: '#ff6600',    // naranja
+  litecoin: '#27ae60'   // verde
+};
+
 // Esta función la ejecutamos cuando hay datos nuevos o al cambiar la criptomoneda en el menú.
 // Recibe el objeto completo de una criptomoneda como lo definimos en el modelo.
 // Por ejemplo: { nombre: 'bitcoin', precioActual: null, precioMasAlto: null, precioMasBajo: null, datos: [] },
@@ -153,11 +180,23 @@ function actualizar(objetoMoneda) {
   if (!objetoMoneda || objetoMoneda.datos.length === 0) {
     return;
   }
+  if (ultimaActualizacion) {
+    const ahora = new Date();
+    ultimaActualizacion.innerText =
+      'Última actualización: ' + ahora.toLocaleTimeString();
+  }
   // Este texto es una combinación entre textos estáticos y variables.
   // De momento no es muy descriptivo, deben modificarlo para comenzar a ser más claros con el público general.
   // El que ven en el ejemplo terminado es:
   // contexto1.innerText = "Actualmente, el precio de " + menu.value + " es de: " + formatoUSD.format(objetoMoneda.precioActual) + " USD.";
-  contexto1.innerText = '- ' + menu.value + ': ' + formatoUSD.format(objetoMoneda.precioActual) + ' USD.';
+  contexto1.innerHTML =
+    'Actualmente el precio del ' + menu.value +
+    ' es de ' + formatoUSD.format(objetoMoneda.precioActual) +
+    ' USD.' +
+    '<br> <br> - Su precio ha oscilado dentro de un rango de ' +
+    formatoUSD.format(objetoMoneda.precioMasBajo) +
+    ' a' +
+    formatoUSD.format(objetoMoneda.precioMasAlto);
 
   // Para el segundo texto vamos a hacer comparaciones entre el precio inicial y el actual.
   // El texto va a indicar si es igual, ha subido o bajado y la diferencia de cuanto ha cambiado el precio.
@@ -165,12 +204,12 @@ function actualizar(objetoMoneda) {
 
   if (precioInicial < objetoMoneda.precioActual) {
     var diferencia = objetoMoneda.precioActual - precioInicial;
-    contexto2.innerText = 'subió + ' + formatoUSD.format(diferencia);
+    contexto2.innerText = 'Desde la apertura del tablero, el precio ha aumentado en + ' + formatoUSD.format(diferencia);
   } else if (precioInicial > objetoMoneda.precioActual) {
     var diferencia = precioInicial - objetoMoneda.precioActual;
-    contexto2.innerText = 'bajó - ' + formatoUSD.format(diferencia);
+    contexto2.innerText = 'Desde la apertura del tablero, el precio ha disminuido en - ' + formatoUSD.format(diferencia);
   } else {
-    contexto2.innerText = 'igual = 0';
+    contexto2.innerText = 'Desde la apertura del tablero, el precio no ha presentado cambios.';
   }
 
   // El eje X que definimos antes lo actualizamos con un método de d3 que busca el rango de fechas en todos los datos disponibles hasta el momento.
@@ -223,8 +262,8 @@ function actualizar(objetoMoneda) {
         })
     )
     .attr('fill', 'none')
-    .attr('stroke', '#42b3f5') // Pueden cambiar el color de la línea
-    .attr('stroke-width', 2.5); // Grosor de la línea
+    .attr('stroke', coloresMonedas[objetoMoneda.nombre] || '#d1b758')
+    .attr('stroke-width', 4); // Grosor de la línea
 }
 
 // FIN de Visualización y textos dinámicos
