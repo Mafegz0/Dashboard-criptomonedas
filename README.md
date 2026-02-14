@@ -29,11 +29,12 @@ El tablero permite:
 ---
 
 ## Estructura del proyecto
-
-├── index.html # Interfaz principal del dashboard
-├── style.css # Estilos visuales
-├── script.js # Lógica y visualización
-├── README.md # Documentación del proyecto
+```
+├── index.html   # Interfaz principal del dashboard
+├── style.css    # Estilos visuales
+├── script.js    # Lógica y visualización
+└── README.md    # Documentación del proyecto
+```
 
 ## Cómo funciona
 
