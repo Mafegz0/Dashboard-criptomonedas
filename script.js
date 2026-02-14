@@ -239,6 +239,18 @@ function actualizar(objetoMoneda) {
   ]);
   svg.selectAll('.ejeY').transition().duration(300).call(ejeY);
 
+  svg.selectAll('.tituloGrafica').remove(); // borra el anterior
+
+  svg.append('text')
+    .attr('class', 'tituloGrafica')
+    .attr('x', ancho / 2)
+    .attr('y', -8) // arriba de la gráfica
+    .attr('text-anchor', 'middle')
+    .style('font-size', '16px')
+    .style('font-weight', '600')
+    .style('fill', '#333')
+    .text('Fluctuación del precio de ' + objetoMoneda.nombre + ' (USD) en tiempo real');
+
   // Pasamos los datos actuales a la linea que vamos a pintar
   const linea = svg.selectAll('.linea').data([objetoMoneda.datos], function(d) {
     return d;
