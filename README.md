@@ -1,64 +1,68 @@
-# Dashboard de Precios de Criptomonedas en Tiempo Real
+# Real-Time Cryptocurrency Price Dashboard
 
-Live Demo 
+## Live Demo  
 https://mafegz0.github.io/Dashboard-criptomonedas/
+
 [![View Project](https://img.shields.io/badge/View-Project-blue)](https://mafegz0.github.io/Dashboard-criptomonedas/)
 
+This project is an **interactive dashboard** that visualizes real-time cryptocurrency price fluctuations using Binance data through WebSockets. It is developed with **HTML, CSS, JavaScript, and D3.js**, and aims to provide a clear and accessible narrative for a general audience on how prices change minute by minute.
 
-Este proyecto es un **dashboard interactivo** que visualiza en tiempo real la fluctuación de los precios de criptomonedas usando datos de Binance a través de WebSockets. Está desarrollado con **HTML, CSS, JavaScript y D3.js**, y tiene como objetivo ofrecer una narrativa clara y accesible para público general sobre cómo varían los precios minuto a minuto.
-
-**Ver tablero publicado en Replit:**  
+**View deployed dashboard on Replit:**  
 https://criptomonedas-precios--mafegz0.replit.app
 
 ---
 
-## ¿Qué hace este dashboard?
+## What does this dashboard do?
 
-El tablero permite:
+The dashboard allows users to:
 
-- Conectarse a una fuente de datos en tiempo real (Binance WebSocket).
-- Visualizar la **gráfica de tendencia** de una criptomoneda seleccionada.
-- Mostrar el **precio actual**, el **rango mínimo y máximo** desde la apertura del tablero y la **variación acumulada**.
-- Actualizar dinámicamente los datos sin necesidad de recargar la página.
-- Permitir al usuario seleccionar diferentes criptomonedas mediante un menú desplegable.
-
----
-
-## Tecnologías usadas
-
-- **HTML & CSS** — Estructura y estilo del dashboard.
-- **JavaScript** — Lógica de conexión, modelado de datos y dinámicas UI.
-- **D3.js** — Visualización de datos.
-- **Binance WebSocket API** — Fuente de datos en tiempo real.
+- Connect to a real-time data source (Binance WebSocket)
+- Visualize the **trend chart** of a selected cryptocurrency
+- Display the **current price**, **minimum and maximum range** since the dashboard opened, and **cumulative variation**
+- Dynamically update data without refreshing the page
+- Select different cryptocurrencies using a dropdown menu
 
 ---
 
-## Estructura del proyecto
+## Technologies Used
+
+- **HTML & CSS** — Dashboard structure and styling  
+- **JavaScript** — Data connection logic, modeling, and UI dynamics  
+- **D3.js** — Data visualization  
+- **Binance WebSocket API** — Real-time data source  
+
+---
+
+## Project Structure
+
 ```
-├── index.html   # Interfaz principal del dashboard
-├── style.css    # Estilos visuales
-├── script.js    # Lógica y visualización
-└── README.md    # Documentación del proyecto
+├── index.html # Main dashboard interface
+├── style.css # Visual styles
+├── script.js # Logic and visualization
+└── README.md # Project documentation
 ```
 
-## Cómo funciona
+---
 
-1. La aplicación se conecta a la API de Binance usando WebSockets para recibir precios en tiempo real de varias criptomonedas.
-2. Los datos entrantes se modelan en una estructura que acumula información de cada moneda.
-3. Se utiliza D3.js para dibujar una **gráfica de línea** que muestra la evolución del precio de la moneda seleccionada.
-4. Textos descriptivos y de contexto acompañan la visualización para facilitar la lectura por parte de un público general.
+## How It Works
+
+1. The application connects to the Binance API using WebSockets to receive real-time cryptocurrency prices.
+2. Incoming data is modeled into a structure that accumulates information for each cryptocurrency.
+3. D3.js is used to draw a **line chart** showing the price evolution of the selected cryptocurrency.
+4. Descriptive and contextual text accompanies the visualization to facilitate interpretation for a general audience.
 
 ---
 
-## Notas
+## Notes
 
-Este proyecto fue desarrollado como parte de un ejercicio académico para practicar conectividad en tiempo real y visualización de datos sin conocer valores futuros, enfatizando la narrativa visual hacia un público sin experiencia técnica previa.
+This project was developed as part of an academic exercise to practice real-time connectivity and data visualization without prior knowledge of future values, emphasizing visual storytelling for a non-technical audience.
 
 ---
 
-## Enlaces
+## Links
 
--  **Tablero publicado (Replit):** https://criptomonedas-precios--mafegz0.replit.app
--  **Repositorio (GitHub):** https://github.com/Mafegz0/Dashboard-criptomonedas/tree/main
+- **Live Dashboard (Replit):**  
+https://criptomonedas-precios--mafegz0.replit.app
 
-
+- **GitHub Repository:**  
+https://github.com/Mafegz0/Dashboard-criptomonedas/tree/main
