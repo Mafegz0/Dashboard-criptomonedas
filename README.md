@@ -1,5 +1,10 @@
 # Dashboard de Precios de Criptomonedas en Tiempo Real
 
+Live Demo 
+https://mafegz0.github.io/Dashboard-criptomonedas/
+[![View Project](https://img.shields.io/badge/View-Project-blue)](https://mafegz0.github.io/Dashboard-criptomonedas/)
+
+
 Este proyecto es un **dashboard interactivo** que visualiza en tiempo real la fluctuación de los precios de criptomonedas usando datos de Binance a través de WebSockets. Está desarrollado con **HTML, CSS, JavaScript y D3.js**, y tiene como objetivo ofrecer una narrativa clara y accesible para público general sobre cómo varían los precios minuto a minuto.
 
 **Ver tablero publicado en Replit:**  
